@@ -305,6 +305,13 @@
       background: var(--border);
     }
   </style>
+  
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+  emailjs.init("service_a1x9e69"); // Your service ID
+</script>
+
+
 </head>
 <body>
   <div class="container">
@@ -520,23 +527,28 @@
 
 
 <div class="contact-form" style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
-    <h3 style="color: var(--text); margin-bottom: 1rem;">Get Your Results</h3>
+    <h3 style="color: var(--text); margin-bottom: 1rem;">Get Your Personalized Results</h3>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter your details to receive your AI skill assessment and personalized recommendations.</p>
+    
     <div style="display: grid; gap: 1rem;">
         <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Name</label>
-            <input type="text" id="userName" placeholder="Enter your name" 
+            <input type="text" id="userName" placeholder="Enter your name" required
                    style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
         </div>
         <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Email</label>
-            <input type="email" id="userEmail" placeholder="Enter your email" 
+            <input type="email" id="userEmail" placeholder="Enter your email" required
                    style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
         </div>
     </div>
+    
+    <button class="calculate-btn" onclick="captureLeadAndCalculate()" style="margin-top: 1.5rem; width: 100%;">
+        Get My Results & Personalized Plan
+    </button>
 </div>
 
-      
-      <button class="calculate-btn" id="calculateBtn" onclick="calculateLevel()">Calculate My AI Skill Level</button>
+
 
       <div class="results" id="results">
         <div class="level-badge" id="levelBadge">Level X</div>
@@ -727,10 +739,18 @@ function updateCalculateButton() {
     }
 }
 
-function calculateLevel() {
+async function captureLeadAndCalculate() {
+    const userName = document.getElementById('userName').value;
+    const userEmail = document.getElementById('userEmail').value;
+    
+    if (!userName || !userEmail) {
+        alert('Please enter your name and email to get your results.');
+        return;
+    }
+    
+    // Calculate the level first
     const values = Object.values(selectedAnswers);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
-    
     let level = Math.round(average);
     
     if (selectedAnswers['question-4'] >= 10 && selectedAnswers['question-5'] >= 10) {
@@ -739,17 +759,38 @@ function calculateLevel() {
     if (selectedAnswers['question-5'] === 11 || selectedAnswers['question-4'] === 11) {
         level = 11;
     }
-    
     level = Math.max(1, Math.min(11, level));
     
-    // Email functionality
-    const userName = document.getElementById('userName')?.value || 'Participant';
-    const userEmail = document.getElementById('userEmail')?.value;
-    
-    if (userEmail) {
-        const levelData = levels[level];
-        const subject = `Your AI Collaboration Skills Assessment Results: Level ${level}`;
-        const body = `Hi ${userName},
+    // Capture lead via EmailJS
+    try {
+        await emailjs.send('service_a1x9e69', 'your_template_name', {
+            user_name: userName,
+            user_email: userEmail,
+            skill_level: level,
+            assessment_date: new Date().toLocaleDateString(),
+            results_url: window.location.href
+        });
+        
+        console.log('Lead captured successfully!', { userName, userEmail, level });
+        
+        // Show results to user
+        displayResults(level);
+        
+        // Also email the results to them
+        sendResultsEmail(userName, userEmail, level);
+        
+    } catch (error) {
+        console.error('Failed to capture lead:', error);
+        // Still show results even if email fails
+        displayResults(level);
+        alert('Results ready! There was an issue sending the email, but your results are shown below.');
+    }
+}
+
+function sendResultsEmail(userName, userEmail, level) {
+    const levelData = levels[level];
+    const subject = `Your AI Collaboration Skills Assessment: Level ${level}`;
+    const body = `Hi ${userName},
 
 Your AI Collaboration Skill Level is: Level ${level} - ${levelData.title}
 
@@ -761,10 +802,13 @@ ${levelData.characteristics.map(char => `• ${char}`).join('\n')}
 NEXT STEPS:
 ${levelData.nextSteps}
 
-Thank you for taking the assessment!`;
+Thank you for taking the assessment!
 
-        window.location.href = `mailto:${userEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
+Best regards,
+AI Skills Assessment Team`;
+
+    window.location.href = `mailto:${userEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
     
     displayResults(level);
 }
