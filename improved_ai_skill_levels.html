@@ -148,6 +148,25 @@
       font-size: 0.9rem;
     }
 
+/* ADD THIS FIX CSS AFTER YOUR EXISTING CSS */
+.option {
+  position: relative;
+  z-index: 10;
+}
+
+.contact-form {
+  position: relative;
+  z-index: 1;
+}
+
+.option-radio, .option-content {
+  pointer-events: none;
+}
+
+.option {
+  pointer-events: auto;
+}
+
     .calculate-btn {
       background: var(--primary);
       color: white;
