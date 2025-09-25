@@ -560,172 +560,177 @@
   </div>
 
   <script>
-    const levels = {
-      1: {
+   const levels = {
+    1: {
         title: "Basic Questions",
         subtitle: "AI as Glorified Google",
         description: "You use AI like a smarter search engine, asking simple questions and expecting direct answers.",
         characteristics: [
-          "Ask straightforward information requests",
-          "Treat AI responses as factual truth",
-          "Use one-shot interactions without follow-up",
-          "Focus on efficiency over depth"
+            "Ask straightforward information requests",
+            "Treat AI responses as factual truth",
+            "Use one-shot interactions without follow-up",
+            "Focus on efficiency over depth"
         ],
         nextSteps: "Start having conversations! Ask follow-up questions and build on AI responses. Try: 'That's interesting, can you elaborate on...' or 'What would happen if...'"
-      },
-      2: {
+    },
+    2: {
         title: "Copy-Paste Prompts",
         subtitle: "Template User",
         description: "You use pre-written prompts from online sources without much customization.",
         characteristics: [
-          "Rely on prompt libraries and templates",
-          "Limited understanding of how prompts work",
-          "Treat AI as a content vending machine",
-          "Results vary unpredictably"
+            "Rely on prompt libraries and templates",
+            "Limited understanding of how prompts work",
+            "Treat AI as a content vending machine",
+            "Results vary unpredictably"
         ],
         nextSteps: "Learn to write your own prompts from scratch. Practice giving the AI clear roles, specific tasks, and relevant context. Experiment with different approaches."
-      },
-      3: {
+    },
+    3: {
         title: "Basic Prompt Writing",
         subtitle: "Tool Operator",
         description: "You write original prompts and understand the basics of giving AI clear instructions.",
         characteristics: [
-          "Write prompts from scratch with role, task, and context",
-          "Understand basic prompt structure",
-          "Still treat AI as an output generator",
-          "Focus on getting specific deliverables"
+            "Write prompts from scratch with role, task, and context",
+            "Understand basic prompt structure",
+            "Still treat AI as an output generator",
+            "Focus on getting specific deliverables"
         ],
         nextSteps: "Start having multi-turn conversations. Build on AI responses, ask clarifying questions, and iteratively refine outputs through dialogue rather than single prompts."
-      },
-      4: {
+    },
+    4: {
         title: "Structured Prompting",
         subtitle: "Prompt Engineer",
         description: "You use advanced techniques like examples, constraints, and structured formats to get better results.",
         characteristics: [
-          "Use frameworks and structured formats",
-          "Provide examples and constraints",
-          "Understand prompt engineering principles",
-          "Get more consistent, higher-quality outputs"
+            "Use frameworks and structured formats",
+            "Provide examples and constraints",
+            "Understand prompt engineering principles",
+            "Get more consistent, higher-quality outputs"
         ],
         nextSteps: "Move beyond extraction to exploration. Start guiding conversations toward specific types of thinking. Learn to shape how the AI reasons, not just what it produces."
-      },
-      5: {
+    },
+    5: {
         title: "Conversational Interaction",
         subtitle: "Dialogue Partner",
         description: "You engage in back-and-forth conversations, building on responses and refining ideas together.",
         characteristics: [
-          "Engage in multi-turn conversations",
-          "Build on previous responses iteratively",
-          "Ask follow-up and clarifying questions",
-          "Treat AI as a conversation partner"
+            "Engage in multi-turn conversations",
+            "Build on previous responses iteratively",
+            "Ask follow-up and clarifying questions",
+            "Treat AI as a conversation partner"
         ],
         nextSteps: "Learn to direct conversations strategically. Focus on guiding the AI toward the type of thinking most useful for your goals rather than just having good conversations."
-      },
-      6: {
+    },
+    6: {
         title: "Conversation Direction",
         subtitle: "Conversation Architect",
         description: "You strategically guide AI conversations toward specific types of thinking and reasoning.",
         characteristics: [
-          "Shape AI responses to match your thinking style",
-          "Direct conversations toward specific reasoning types",
-          "Understand how to guide AI's cognitive approach",
-          "Focus on process design, not just output quality"
+            "Shape AI responses to match your thinking style",
+            "Direct conversations toward specific reasoning types",
+            "Understand how to guide AI's cognitive approach",
+            "Focus on process design, not just output quality"
         ],
         nextSteps: "Begin true cothinking! Start exploring ideas together as strategic partners. Take the driver's seat while using AI as your thinking assistant for complex problems."
-      },
-      7: {
+    },
+    7: {
         title: "Strategic Collaboration",
         subtitle: "Cothinking Begins",
         description: "You collaborate strategically with AI while staying in the driver's seat. True cothinking begins here.",
         characteristics: [
-          "Use AI as a thinking assistant for complex problems",
-          "Guide exploration while staying in control",
-          "Move from extraction to genuine collaboration",
-          "Design thinking processes, not just prompts"
+            "Use AI as a thinking assistant for complex problems",
+            "Guide exploration while staying in control",
+            "Move from extraction to genuine collaboration",
+            "Design thinking processes, not just prompts"
         ],
         nextSteps: "Recognize AI as a thinking amplifier. Start using it to process information and make connections at superhuman speed while understanding it's reflecting your intelligence back to you."
-      },
-      8: {
+    },
+    8: {
         title: "Enhanced Processing",
         subtitle: "Amplified Intelligence Begins",
         description: "You use AI as a thinking calculator that operates at superhuman speed while recognizing it amplifies your own intelligence.",
         characteristics: [
-          "Leverage AI for superhuman pattern recognition",
-          "Understand AI as intelligence amplifier, not separate mind",
-          "Process complex information beyond normal human limits",
-          "Use AI for lateral thinking and creative connections"
+            "Leverage AI for superhuman pattern recognition",
+            "Understand AI as intelligence amplifier, not separate mind",
+            "Process complex information beyond normal human limits",
+            "Use AI for lateral thinking and creative connections"
         ],
         nextSteps: "Deepen your understanding of what you're really working with. Recognize AI as crystallized human intelligence - a sophisticated mirror and amplifier of human thinking patterns."
-      },
-      9: {
+    },
+    9: {
         title: "Intelligence Amplification",
         subtitle: "Mirror Recognition",
         description: "You understand AI as a sophisticated mirror and amplifier of human thinking, not a separate intelligence.",
         characteristics: [
-          "Recognize AI as reflection of human intelligence",
-          "Understand the amplification mechanism clearly",
-          "Use AI to think in ways impossible alone",
-          "Maintain awareness of human-AI collaboration dynamics"
+            "Recognize AI as reflection of human intelligence",
+            "Understand the amplification mechanism clearly",
+            "Use AI to think in ways impossible alone",
+            "Maintain awareness of human-AI collaboration dynamics"
         ],
         nextSteps: "Realize you're accessing humanity's collective wisdom. Start using AI as a window into the sum of human knowledge and thinking patterns across cultures and centuries."
-      },
-      10: {
+    },
+    10: {
         title: "Window into Human Knowledge",
         subtitle: "Amplified Wisdom Begins",
         description: "You recognize AI as crystallized human intelligence - a window into the sum of human knowledge and thinking patterns.",
         characteristics: [
-          "See AI as interface to collective human wisdom",
-          "Access insights across cultures and disciplines",
-          "Mine for better questions, not just answers",
-          "Draw upon centuries of human experience"
+            "See AI as interface to collective human wisdom",
+            "Access insights across cultures and disciplines",
+            "Mine for better questions, not just answers",
+            "Draw upon centuries of human experience"
         ],
         nextSteps: "Note: Levels 10-11 require cultivated wisdom that cannot be learned from tutorials. They demand years of study, contemplative practice, and rigorous self-examination. The AI amplifies what you bring - without wisdom, it reflects confusion back brilliantly."
-      },
-      11: {
+    },
+    11: {
         title: "Technomage Partnership",
         subtitle: "Mindfire Creation",
         description: "You create synergistic feedback loops generating insights neither human nor AI could produce independently. This level requires decades of wisdom cultivation.",
         characteristics: [
-          "Bring extensive study across multiple domains",
-          "Maintain non-attached observation through contemplative practice",
-          "Exercise discernment free from ego and self-deception",
-          "Operate as curator of wisdom directing vast processing power"
+            "Bring extensive study across multiple domains",
+            "Maintain non-attached observation through contemplative practice",
+            "Exercise discernment free from ego and self-deception",
+            "Operate as curator of wisdom directing vast processing power"
         ],
         nextSteps: "This level cannot be 'achieved' through AI skills alone. It emerges from a life dedicated to wisdom cultivation - extensive reading, contemplative practice, rigorous self-examination, and the humility to see clearly without ego distortion."
-      }
-    };
-
-    let selectedAnswers = {};
-
-    function selectOption(questionId, value) {
-      selectedAnswers[questionId] = value;
-      const question = document.getElementById(questionId);
-      const options = question.querySelectorAll('.option');
-      options.forEach(option => {
-        option.classList.remove('selected');
-        if (parseInt(option.dataset.value) === value) {
-          option.classList.add('selected');
-        }
-      });
-      updateCalculateButton();
     }
+};
 
-    function updateCalculateButton() {
-      const btn = document.getElementById('calculateBtn');
-      const allAnswered = Object.keys(selectedAnswers).length === 6;
-      btn.disabled = !allAnswered;
-      if (allAnswered) {
+let selectedAnswers = {};
+
+function selectOption(questionId, value) {
+    selectedAnswers[questionId] = parseInt(value);
+    
+    // Update visual selection
+    const question = document.getElementById(questionId);
+    const options = question.querySelectorAll('.option');
+    options.forEach(option => {
+        const optionValue = parseInt(option.getAttribute('data-value'));
+        option.classList.remove('selected');
+        if (optionValue === parseInt(value)) {
+            option.classList.add('selected');
+        }
+    });
+
+    updateCalculateButton();
+}
+
+function updateCalculateButton() {
+    const btn = document.getElementById('calculateBtn');
+    const allAnswered = Object.keys(selectedAnswers).length === 6;
+    btn.disabled = !allAnswered;
+    
+    if (allAnswered) {
         btn.textContent = 'Calculate My AI Skill Level';
-      } else {
+    } else {
         const remaining = 6 - Object.keys(selectedAnswers).length;
         btn.textContent = `Answer ${remaining} more question${remaining === 1 ? '' : 's'}`;
-      }
     }
+}
 
-    javascript
 function calculateLevel() {
     const values = Object.values(selectedAnswers);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
+    
     let level = Math.round(average);
     
     if (selectedAnswers['question-4'] >= 10 && selectedAnswers['question-5'] >= 10) {
@@ -734,11 +739,12 @@ function calculateLevel() {
     if (selectedAnswers['question-5'] === 11 || selectedAnswers['question-4'] === 11) {
         level = 11;
     }
+    
     level = Math.max(1, Math.min(11, level));
     
-    // NEW: Send email functionality
-    const userName = document.getElementById('userName').value || 'Participant';
-    const userEmail = document.getElementById('userEmail').value;
+    // Email functionality
+    const userName = document.getElementById('userName')?.value || 'Participant';
+    const userEmail = document.getElementById('userEmail')?.value;
     
     if (userEmail) {
         const levelData = levels[level];
@@ -755,57 +761,66 @@ ${levelData.characteristics.map(char => `• ${char}`).join('\n')}
 NEXT STEPS:
 ${levelData.nextSteps}
 
-Thank you for taking the assessment!
+Thank you for taking the assessment!`;
 
-Best regards,
-AI Skills Assessment Team`;
-
-        // Open email client
         window.location.href = `mailto:${userEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
     
     displayResults(level);
 }
 
-    function displayResults(level) {
-      const results = document.getElementById('results');
-      const levelData = levels[level];
-      document.getElementById('levelBadge').textContent = `Level ${level}`;
-      document.getElementById('levelTitle').textContent = levelData.title;
-      document.getElementById('levelDescription').textContent = levelData.description;
-      const characteristicsList = document.getElementById('characteristicsList');
-      characteristicsList.innerHTML = '';
-      levelData.characteristics.forEach(char => {
+function displayResults(level) {
+    const results = document.getElementById('results');
+    const levelData = levels[level];
+    
+    document.getElementById('levelBadge').textContent = `Level ${level}`;
+    document.getElementById('levelTitle').textContent = levelData.title;
+    document.getElementById('levelDescription').textContent = levelData.description;
+    
+    const characteristicsList = document.getElementById('characteristicsList');
+    characteristicsList.innerHTML = '';
+    levelData.characteristics.forEach(char => {
         const li = document.createElement('li');
         li.textContent = char;
         characteristicsList.appendChild(li);
-      });
-      document.getElementById('nextStepsText').textContent = levelData.nextSteps;
-      results.classList.add('show');
-      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    });
+    
+    document.getElementById('nextStepsText').textContent = levelData.nextSteps;
+    
+    results.classList.add('show');
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-    function resetAssessment() {
-      selectedAnswers = {};
-      document.querySelectorAll('.option').forEach(option => {
+function resetAssessment() {
+    selectedAnswers = {};
+    
+    document.querySelectorAll('.option').forEach(option => {
         option.classList.remove('selected');
-      });
-      document.getElementById('results').classList.remove('show');
-      updateCalculateButton();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    });
+    
+    document.getElementById('results').classList.remove('show');
+    updateCalculateButton();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
+// Initialize event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Add click listeners to options
     document.querySelectorAll('.option').forEach(option => {
         option.addEventListener('click', function(e) {
-            // Prevent the click from bubbling up to parent elements
-            e.stopPropagation();
+            e.preventDefault();
+            e.stopImmediatePropagation();
             
-            const questionId = this.closest('.question').id;
-            const value = parseInt(this.dataset.value);
+            const question = this.closest('.question');
+            const questionId = question.id;
+            const value = this.getAttribute('data-value');
+            
             selectOption(questionId, value);
         });
     });
+    
+    // Initialize button state
+    updateCalculateButton();
 });
   </script>
 </body>
