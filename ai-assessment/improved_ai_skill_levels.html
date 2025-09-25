@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Collaboration Skills Assessment</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--background), #0c1120);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .assessment-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+        }
+
+        .question h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option {
+            background: var(--surface-light);
+            border: 2px solid transparent;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.2);
+        }
+
+        .option-radio {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+            transition: all 0.3s ease;
+        }
+
+        .option.selected .option-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .option.selected .option-radio::after {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .option-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .calculate-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto;
+            min-width: 200px;
+        }
+
+        .calculate-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -8px rgba(37, 99, 235, 0.5);
+        }
+
+        .calculate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            border: 2px solid var(--primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .level-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .characteristics {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .characteristics h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .characteristics ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .characteristics li {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .characteristics li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .next-steps {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .next-steps h4 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .next-steps p {
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .reset-btn {
+            background: var(--surface-light);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .reset-btn:hover {
+            background: var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Collaboration Skills Assessment</h1>
+            <p>Discover your current level of AI interaction and learn how to advance your capabilities from basic tool use to synergistic partnership.</p>
+        </div>
+
+        <div class="assessment-card">
+            <div class="question" id="question-1">
+                <h3>1. When you interact with AI, what's your primary mental model?</h3>
+                <div class="options">
+                    <div class="option" data-value="1">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Smart Search Engine</div>
+                            <div class="option-description">I ask it questions like I would Google, expecting direct answers</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="3">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Advanced Tool</div>
+                            <div class="option-description">I give it specific tasks and instructions to complete</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="7">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Thinking Partner</div>
+                            <div class="option-description">I collaborate with it to explore ideas and solve problems together</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="10">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Crystallized Human Intelligence</div>
+                            <div class="option-description">I see it as a window into the sum of human knowledge and patterns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" id="question-2">
+                <h3>2. What type of questions do you typically ask?</h3>
+                <div class="options">
+                    <div class="option" data-value="2">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Direct Information Requests</div>
+                            <div class="option-description">"What is..." or "How do I..." - seeking factual answers</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="4">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Task Instructions</div>
+                            <div class="option-description">"Write me a..." or "Create a..." - delegating specific outputs</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="7">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Collaborative Exploration</div>
+                            <div class="option-description">"Let's think through..." or "Help me explore..." - joint problem-solving</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="10">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Meta-Questions</div>
+                            <div class="option-description">"Where is my blind spot?" or "What am I not asking?" - question discovery</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" id="question-3">
+                <h3>3. How do you approach getting better results?</h3>
+                <div class="options">
+                    <div class="option" data-value="2">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Trial and Error</div>
+                            <div class="option-description">I try different phrasings until something works</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="4">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Better Prompting</div>
+                            <div class="option-description">I learn prompt engineering techniques and structured formats</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="7">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Conversation Design</div>
+                            <div class="option-description">I shape multi-turn dialogues and guide the AI's thinking process</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="10">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Feedback Loop Creation</div>
+                            <div class="option-description">I design iterative processes where each output improves the next input</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" id="question-4">
+                <h3>4. What role do you see yourself playing in the interaction?</h3>
+                <div class="options">
+                    <div class="option" data-value="2">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Information Seeker</div>
+                            <div class="option-description">I'm looking for answers to my questions</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="4">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Task Delegator</div>
+                            <div class="option-description">I assign work and review the output</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="7">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Strategic Director</div>
+                            <div class="option-description">I guide the direction while the AI provides processing power</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="11">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Wisdom Curator</div>
+                            <div class="option-description">I provide intention, judgment, and meaning while AI amplifies my reach</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" id="question-5">
+                <h3>5. What's your ultimate goal when using AI?</h3>
+                <div class="options">
+                    <div class="option" data-value="1">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Efficiency</div>
+                            <div class="option-description">Save time and get quick answers</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="4">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Better Outputs</div>
+                            <div class="option-description">Get higher quality content and solutions</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="8">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Amplified Intelligence</div>
+                            <div class="option-description">Think beyond my normal cognitive limits</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="11">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Emergent Insights</div>
+                            <div class="option-description">Create novel understanding through synergistic interaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" id="question-6">
+                <h3>6. How do you think about the AI's capabilities?</h3>
+                <div class="options">
+                    <div class="option" data-value="2">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Smart Database</div>
+                            <div class="option-description">It has access to lots of information and can format it well</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="5">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Artificial Intelligence</div>
+                            <div class="option-description">It's a separate intelligence that can think and reason independently</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="8">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Thinking Calculator</div>
+                            <div class="option-description">It processes and reflects my intelligence back at superhuman speed</div>
+                        </div>
+                    </div>
+                    <div class="option" data-value="10">
+                        <div class="option-radio"></div>
+                        <div class="option-content">
+                            <div class="option-title">Human Knowledge Mirror</div>
+                            <div class="option-description">It's crystallized human intelligence made accessible and queryable</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" id="calculateBtn" onclick="calculateLevel()">Calculate My AI Skill Level</button>
+
+            <div class="results" id="results">
+                <div class="level-badge" id="levelBadge">Level X</div>
+                <div class="level-title" id="levelTitle">Your AI Skill Level</div>
+                <div class="level-description" id="levelDescription">Description of your current level</div>
+                
+                <div class="characteristics">
+                    <h4>Your Current Characteristics</h4>
+                    <ul id="characteristicsList">
+                    </ul>
+                </div>
+
+                <div class="next-steps">
+                    <h4>Next Steps to Advance</h4>
+                    <p id="nextStepsText">Recommendations for moving to the next level</p>
+                </div>
+
+                <button class="reset-btn" onclick="resetAssessment()">Take Assessment Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const levels = {
+            1: {
+                title: "Basic Questions",
+                subtitle: "AI as Glorified Google",
+                description: "You use AI like a smarter search engine, asking simple questions and expecting direct answers.",
+                characteristics: [
+                    "Ask straightforward information requests",
+                    "Treat AI responses as factual truth",
+                    "Use one-shot interactions without follow-up",
+                    "Focus on efficiency over depth"
+                ],
+                nextSteps: "Start having conversations! Ask follow-up questions and build on AI responses. Try: 'That's interesting, can you elaborate on...' or 'What would happen if...'"
+            },
+            2: {
+                title: "Copy-Paste Prompts",
+                subtitle: "Template User",
+                description: "You use pre-written prompts from online sources without much customization.",
+                characteristics: [
+                    "Rely on prompt libraries and templates",
+                    "Limited understanding of how prompts work",
+                    "Treat AI as a content vending machine",
+                    "Results vary unpredictably"
+                ],
+                nextSteps: "Learn to write your own prompts from scratch. Practice giving the AI clear roles, specific tasks, and relevant context. Experiment with different approaches."
+            },
+            3: {
+                title: "Basic Prompt Writing",
+                subtitle: "Tool Operator",
+                description: "You write original prompts and understand the basics of giving AI clear instructions.",
+                characteristics: [
+                    "Write prompts from scratch with role, task, and context",
+                    "Understand basic prompt structure",
+                    "Still treat AI as an output generator",
+                    "Focus on getting specific deliverables"
+                ],
+                nextSteps: "Start having multi-turn conversations. Build on AI responses, ask clarifying questions, and iteratively refine outputs through dialogue rather than single prompts."
+            },
+            4: {
+                title: "Structured Prompting",
+                subtitle: "Prompt Engineer",
+                description: "You use advanced techniques like examples, constraints, and structured formats to get better results.",
+                characteristics: [
+                    "Use frameworks and structured formats",
+                    "Provide examples and constraints",
+                    "Understand prompt engineering principles",
+                    "Get more consistent, higher-quality outputs"
+                ],
+                nextSteps: "Move beyond extraction to exploration. Start guiding conversations toward specific types of thinking. Learn to shape how the AI reasons, not just what it produces."
+            },
+            5: {
+                title: "Conversational Interaction",
+                subtitle: "Dialogue Partner",
+                description: "You engage in back-and-forth conversations, building on responses and refining ideas together.",
+                characteristics: [
+                    "Engage in multi-turn conversations",
+                    "Build on previous responses iteratively",
+                    "Ask follow-up and clarifying questions",
+                    "Treat AI as a conversation partner"
+                ],
+                nextSteps: "Learn to direct conversations strategically. Focus on guiding the AI toward the type of thinking most useful for your goals rather than just having good conversations."
+            },
+            6: {
+                title: "Conversation Direction",
+                subtitle: "Conversation Architect",
+                description: "You strategically guide AI conversations toward specific types of thinking and reasoning.",
+                characteristics: [
+                    "Shape AI responses to match your thinking style",
+                    "Direct conversations toward specific reasoning types",
+                    "Understand how to guide AI's cognitive approach",
+                    "Focus on process design, not just output quality"
+                ],
+                nextSteps: "Begin true cothinking! Start exploring ideas together as strategic partners. Take the driver's seat while using AI as your thinking assistant for complex problems."
+            },
+            7: {
+                title: "Strategic Collaboration",
+                subtitle: "Cothinking Begins",
+                description: "You collaborate strategically with AI while staying in the driver's seat. True cothinking begins here.",
+                characteristics: [
+                    "Use AI as a thinking assistant for complex problems",
+                    "Guide exploration while staying in control",
+                    "Move from extraction to genuine collaboration",
+                    "Design thinking processes, not just prompts"
+                ],
+                nextSteps: "Recognize AI as a thinking amplifier. Start using it to process information and make connections at superhuman speed while understanding it's reflecting your intelligence back to you."
+            },
+            8: {
+                title: "Enhanced Processing",
+                subtitle: "Amplified Intelligence Begins",
+                description: "You use AI as a thinking calculator that operates at superhuman speed while recognizing it amplifies your own intelligence.",
+                characteristics: [
+                    "Leverage AI for superhuman pattern recognition",
+                    "Understand AI as intelligence amplifier, not separate mind",
+                    "Process complex information beyond normal human limits",
+                    "Use AI for lateral thinking and creative connections"
+                ],
+                nextSteps: "Deepen your understanding of what you're really working with. Recognize AI as crystallized human intelligence - a sophisticated mirror and amplifier of human thinking patterns."
+            },
+            9: {
+                title: "Intelligence Amplification",
+                subtitle: "Mirror Recognition",
+                description: "You understand AI as a sophisticated mirror and amplifier of human thinking, not a separate intelligence.",
+                characteristics: [
+                    "Recognize AI as reflection of human intelligence",
+                    "Understand the amplification mechanism clearly",
+                    "Use AI to think in ways impossible alone",
+                    "Maintain awareness of human-AI collaboration dynamics"
+                ],
+                nextSteps: "Realize you're accessing humanity's collective wisdom. Start using AI as a window into the sum of human knowledge and thinking patterns across cultures and centuries."
+            },
+            10: {
+                title: "Window into Human Knowledge",
+                subtitle: "Amplified Wisdom Begins",
+                description: "You recognize AI as crystallized human intelligence - a window into the sum of human knowledge and thinking patterns.",
+                characteristics: [
+                    "See AI as interface to collective human wisdom",
+                    "Access insights across cultures and disciplines",
+                    "Mine for better questions, not just answers",
+                    "Draw upon centuries of human experience"
+                ],
+                nextSteps: "Note: Levels 10-11 require cultivated wisdom that cannot be learned from tutorials. They demand years of study, contemplative practice, and rigorous self-examination. The AI amplifies what you bring - without wisdom, it reflects confusion back brilliantly."
+            },
+            11: {
+                title: "Technomage Partnership",
+                subtitle: "Mindfire Creation",
+                description: "You create synergistic feedback loops generating insights neither human nor AI could produce independently. This level requires decades of wisdom cultivation.",
+                characteristics: [
+                    "Bring extensive study across multiple domains",
+                    "Maintain non-attached observation through contemplative practice",
+                    "Exercise discernment free from ego and self-deception",
+                    "Operate as curator of wisdom directing vast processing power"
+                ],
+                nextSteps: "This level cannot be 'achieved' through AI skills alone. It emerges from a life dedicated to wisdom cultivation - extensive reading, contemplative practice, rigorous self-examination, and the humility to see clearly without ego distortion."
+            }
+        };
+
+        let selectedAnswers = {};
+
+        function selectOption(questionId, value) {
+            selectedAnswers[questionId] = value;
+            
+            // Update visual selection
+            const question = document.getElementById(questionId);
+            const options = question.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+                if (parseInt(option.dataset.value) === value) {
+                    option.classList.add('selected');
+                }
+            });
+
+            updateCalculateButton();
+        }
+
+        function updateCalculateButton() {
+            const btn = document.getElementById('calculateBtn');
+            const allAnswered = Object.keys(selectedAnswers).length === 6;
+            btn.disabled = !allAnswered;
+            
+            if (allAnswered) {
+                btn.textContent = 'Calculate My AI Skill Level';
+            } else {
+                const remaining = 6 - Object.keys(selectedAnswers).length;
+                btn.textContent = `Answer ${remaining} more question${remaining === 1 ? '' : 's'}`;
+            }
+        }
+
+        function calculateLevel() {
+            const values = Object.values(selectedAnswers);
+            const average = values.reduce((a, b) => a + b, 0) / values.length;
+            
+            // Round to nearest level, with some nuance
+            let level = Math.round(average);
+            
+            // Adjust based on specific answer patterns
+            if (selectedAnswers['question-4'] >= 10 && selectedAnswers['question-5'] >= 10) {
+                level = Math.max(level, 10);
+            }
+            if (selectedAnswers['question-5'] === 11 || selectedAnswers['question-4'] === 11) {
+                level = 11;
+            }
+            
+            level = Math.max(1, Math.min(11, level));
+            
+            displayResults(level);
+        }
+
+        function displayResults(level) {
+            const results = document.getElementById('results');
+            const levelData = levels[level];
+            
+            document.getElementById('levelBadge').textContent = `Level ${level}`;
+            document.getElementById('levelTitle').textContent = levelData.title;
+            document.getElementById('levelDescription').textContent = levelData.description;
+            
+            const characteristicsList = document.getElementById('characteristicsList');
+            characteristicsList.innerHTML = '';
+            levelData.characteristics.forEach(char => {
+                const li = document.createElement('li');
+                li.textContent = char;
+                characteristicsList.appendChild(li);
+            });
+            
+            document.getElementById('nextStepsText').textContent = levelData.nextSteps;
+            
+            results.classList.add('show');
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetAssessment() {
+            selectedAnswers = {};
+            
+            // Clear all selections
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Hide results
+            document.getElementById('results').classList.remove('show');
+            
+            // Reset button
+            updateCalculateButton();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add click listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.closest('.question').id;
+                    const value = parseInt(this.dataset.value);
+                    selectOption(questionId, value);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
