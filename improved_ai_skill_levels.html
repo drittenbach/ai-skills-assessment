@@ -499,22 +499,22 @@
         </div>
       </div>
 
-      <!-- Add this section right before the calculate button -->
-      <div class="contact-form">
-          <h3>Get Your Results Emailed to You</h3>
-          <div style="display: grid; gap: 1rem; margin-top: 1rem;">
-              <div>
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Name</label>
-                  <input type="text" id="userName" placeholder="Enter your name"
-                         style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface-light); color: var(--text);">
-              </div>
-              <div>
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Email</label>
-                  <input type="email" id="userEmail" placeholder="Enter your email"
-                         style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface-light); color: var(--text);">
-              </div>
-          </div>
-      </div>
+      !-- CONTACT FORM SECTION - ADD THIS -->
+<div class="contact-form" style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
+    <h3 style="color: var(--text); margin-bottom: 1rem;">Get Your Results</h3>
+    <div style="display: grid; gap: 1rem;">
+        <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Name</label>
+            <input type="text" id="userName" placeholder="Enter your name" 
+                   style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+        </div>
+        <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Email</label>
+            <input type="email" id="userEmail" placeholder="Enter your email" 
+                   style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+        </div>
+    </div>
+</div>
 
       
       <button class="calculate-btn" id="calculateBtn" onclick="calculateLevel()">Calculate My AI Skill Level</button>
@@ -703,19 +703,50 @@
       }
     }
 
-    function calculateLevel() {
-      const values = Object.values(selectedAnswers);
-      const average = values.reduce((a, b) => a + b, 0) / values.length;
-      let level = Math.round(average);
-      if (selectedAnswers['question-4'] >= 10 && selectedAnswers['question-5'] >= 10) {
+    javascript
+function calculateLevel() {
+    const values = Object.values(selectedAnswers);
+    const average = values.reduce((a, b) => a + b, 0) / values.length;
+    let level = Math.round(average);
+    
+    if (selectedAnswers['question-4'] >= 10 && selectedAnswers['question-5'] >= 10) {
         level = Math.max(level, 10);
-      }
-      if (selectedAnswers['question-5'] === 11 || selectedAnswers['question-4'] === 11) {
-        level = 11;
-      }
-      level = Math.max(1, Math.min(11, level));
-      displayResults(level);
     }
+    if (selectedAnswers['question-5'] === 11 || selectedAnswers['question-4'] === 11) {
+        level = 11;
+    }
+    level = Math.max(1, Math.min(11, level));
+    
+    // NEW: Send email functionality
+    const userName = document.getElementById('userName').value || 'Participant';
+    const userEmail = document.getElementById('userEmail').value;
+    
+    if (userEmail) {
+        const levelData = levels[level];
+        const subject = `Your AI Collaboration Skills Assessment Results: Level ${level}`;
+        const body = `Hi ${userName},
+
+Your AI Collaboration Skill Level is: Level ${level} - ${levelData.title}
+
+${levelData.description}
+
+KEY CHARACTERISTICS:
+${levelData.characteristics.map(char => `• ${char}`).join('\n')}
+
+NEXT STEPS:
+${levelData.nextSteps}
+
+Thank you for taking the assessment!
+
+Best regards,
+AI Skills Assessment Team`;
+
+        // Open email client
+        window.location.href = `mailto:${userEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+    
+    displayResults(level);
+}
 
     function displayResults(level) {
       const results = document.getElementById('results');
