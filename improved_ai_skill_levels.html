@@ -531,36 +531,34 @@
       </div>
 
 
-<!-- NETLIFY FORM - REPLACE YOUR CURRENT CONTACT FORM WITH THIS -->
-<form name="ai-assessment-lead" netlify netlify-honeypot="bot-field" action="#success" style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
-    <!-- Honeypot for spam protection -->
-    <input type="hidden" name="form-name" value="ai-assessment-lead">
-    <p style="display: none;">
-        <label>Don't fill this out if you're human: <input name="bot-field"></label>
-    </p>
-    
+<!-- LEAD CAPTURE FORM - PLACE THIS AFTER ALL QUESTIONS -->
+<div style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
     <h3 style="color: var(--text); margin-bottom: 1rem;">Get Your Personalized Results</h3>
     <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter your details to receive your AI skill assessment and personalized recommendations.</p>
     
-    <div style="display: grid; gap: 1rem;">
-        <div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Name</label>
-            <input type="text" name="name" placeholder="Enter your name" required
-                   style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+    <form name="ai-assessment-lead" netlify>
+        <input type="hidden" name="form-name" value="ai-assessment-lead">
+        
+        <div style="display: grid; gap: 1rem;">
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Name</label>
+                <input type="text" name="name" placeholder="Enter your name" required
+                       style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required
+                       style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+            </div>
         </div>
-        <div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Email</label>
-            <input type="email" name="email" placeholder="Enter your email" required
-                   style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
-        </div>
-    </div>
-    
-    <button type="submit" class="calculate-btn" style="margin-top: 1.5rem; width: 100%;">
-        Get My Results & Personalized Plan
-    </button>
-</form>
+        
+        <button type="submit" class="calculate-btn" style="margin-top: 1.5rem; width: 100%;">
+            Get My Results & Personalized Plan
+        </button>
+    </form>
+</div>
 
-<!-- Success message (hidden by default) -->
+<!-- SUCCESS MESSAGE -->
 <div id="success-message" style="display: none; margin: 2rem 0; padding: 1.5rem; background: var(--success); border-radius: 0.75rem; color: white;">
     <h3>✅ Thank you! Your results are loading...</h3>
 </div>
@@ -866,45 +864,60 @@ function resetAssessment() {
 
 // ... your levels object and all the existing functions ...
 
-// NETLIFY FORM HANDLING (NEW CODE)
+// NETLIFY FORM HANDLING
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form[netlify]');
+    
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Validate that all questions are answered
+            if (Object.keys(selectedAnswers).length !== 6) {
+                alert('Please answer all 6 questions before submitting.');
+                return;
+            }
+            
+            // Show success message
             document.getElementById('success-message').style.display = 'block';
             
+            // Submit form to Netlify
             const formData = new FormData(form);
+            
             fetch('/', {
                 method: 'POST',
                 body: formData,
             }).then(() => {
+                // After form submits, calculate and show results
                 setTimeout(() => {
                     calculateLevel();
-                    form.style.display = 'none';
+                    form.style.display = 'none'; // Hide form after submission
                 }, 1000);
             }).catch(error => {
                 console.error('Form submission error:', error);
+                // Still show results even if form fails
                 calculateLevel();
             });
         });
     }
     
-    // KEEP THIS - it's for the question selection
+    // OPTION SELECTION (KEEP THIS - it should work now)
     document.querySelectorAll('.option').forEach(option => {
         option.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopImmediatePropagation();
-            const question = this.closest('.question');
-            const questionId = question.id;
-            const value = this.getAttribute('data-value');
+            e.stopPropagation();
+            
+            const questionId = this.closest('.question').id;
+            const value = parseInt(this.dataset.value);
             selectOption(questionId, value);
         });
     });
     
-    // KEEP THIS - button state initialization
+    // Initialize button state
     updateCalculateButton();
 });
+
+// KEEP ALL YOUR EXISTING FUNCTIONS (selectOption, calculateLevel, displayResults, etc.)
   </script>
 </body>
 </html>
