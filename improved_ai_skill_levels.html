@@ -151,8 +151,13 @@
 
 /* ADD THIS FIX CSS AFTER YOUR EXISTING CSS */
 .option {
-  position: relative;
-  z-index: 10;
+    position: relative;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.option * {
+    pointer-events: none;
 }
 
 .contact-form {
@@ -164,9 +169,6 @@
   pointer-events: none;
 }
 
-.option {
-  pointer-events: auto;
-}
 
     .calculate-btn {
       background: var(--primary);
