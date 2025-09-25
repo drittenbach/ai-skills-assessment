@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta 
+  "viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Collaboration Skills Assessment</title>
   <style>
     :root {
@@ -306,9 +307,11 @@
     }
   </style>
   
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
-  emailjs.init("service_a1x9e69"); // Your service ID
+  (function() {
+    emailjs.init("service_a1x9e69");
+  })();
 </script>
 
 
@@ -526,27 +529,27 @@
       </div>
 
 
-<div class="contact-form" style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
+<form name="ai-assessment-lead" netlify action="#" style="margin: 2rem 0; padding: 1.5rem; background: var(--surface-light); border-radius: 0.75rem;">
     <h3 style="color: var(--text); margin-bottom: 1rem;">Get Your Personalized Results</h3>
-    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter your details to receive your AI skill assessment and personalized recommendations.</p>
     
     <div style="display: grid; gap: 1rem;">
         <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Name</label>
-            <input type="text" id="userName" placeholder="Enter your name" required
+            <input type="text" name="name" placeholder="Enter your name" required
                    style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
         </div>
         <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">Your Email</label>
-            <input type="email" id="userEmail" placeholder="Enter your email" required
+            <input type="email" name="email" placeholder="Enter your email" required
                    style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
         </div>
     </div>
     
-    <button class="calculate-btn" onclick="captureLeadAndCalculate()" style="margin-top: 1.5rem; width: 100%;">
+    <button type="submit" class="calculate-btn" style="margin-top: 1.5rem; width: 100%;"
+            onclick="setTimeout(() => { calculateLevel(); }, 1000)">
         Get My Results & Personalized Plan
     </button>
-</div>
+</form>
 
 
 
