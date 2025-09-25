@@ -776,15 +776,18 @@ AI Skills Assessment Team`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.option').forEach(option => {
-        option.addEventListener('click', function() {
-          const questionId = this.closest('.question').id;
-          const value = parseInt(this.dataset.value);
-          selectOption(questionId, value);
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function(e) {
+            // Prevent the click from bubbling up to parent elements
+            e.stopPropagation();
+            
+            const questionId = this.closest('.question').id;
+            const value = parseInt(this.dataset.value);
+            selectOption(questionId, value);
         });
-      });
     });
+});
   </script>
 </body>
 </html>
